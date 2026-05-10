@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>A Very Important Question 💕</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --pink: #e91e63;
+      --pink-light: #f8bbd0;
+      --white-glass: rgba(255,255,255,0.88);
+    }
+
+    html {
+      /* allow vertical scroll, block horizontal */
+      overflow-x: hidden;
+    }
+
+    body {
+      min-height: 100dvh;
+      font-family: 'Nunito', sans-serif;
+      background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 25%, #e1bee7 60%, #ce93d8 100%);
+      background-size: 400% 400%;
+      animation: bgShift 10s ease infinite;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 40px 16px 120px; /* bottom padding leaves room for floating No btn */
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    @keyframes bgShift {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* ── STARS ── */
+    .stars { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+    .star {
+      position: absolute;
+      border-radius: 50%;
+      background: white;
+      animation: twinkle ease-in-out infinite;
+    }
+    @keyframes twinkle {
+      0%,100% { opacity: 0.1; transform: scale(1); }
+      50%      { opacity: 0.9; transform: scale(1.4); }
+    }
+
+    /* ── FLOATING PETALS ── */
+    .floaty { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .petal {
+      position: absolute;
+      bottom: -60px;
+      animation: riseUp linear infinite;
+      opacity: 0;
+      will-change: transform, opacity;
+    }
+    @keyframes riseUp {
+      0%   { transform: translateY(0) rotate(0deg) scale(0.8); opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: 0.7; }
+      100% { transform: translateY(-110vh) rotate(540deg) scale(1.1); opacity: 0; }
+    }
+
+    /* ── CARD ── */
+    .card {
+      position: relative;
+      z-index: 10;
+      background: var(--white-glass);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-radius: 28px;
+      padding: clamp(28px, 6vw, 52px) clamp(22px, 7vw, 60px) clamp(28px, 6vw, 44px);
+      max-width: 540px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 24px 70px rgba(233,30,99,0.22), 0 2px 12px rgba(0,0,0,0.06);
+      animation: popIn 0.9s cubic-bezier(.34,1.56,.64,1) forwards;
+    }
+    @keyframes popIn {
+      0%   { transform: scale(0.3) rotate(-8deg); opacity: 0; }
+      80%  { transform: scale(1.04) rotate(1deg); }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+
+    /* ── BEAR ── */
+    .bear-wrap {
+      display: inline-block;
+      margin-bottom: 8px;
+      animation: floatBear 3s ease-in-out infinite;
+    }
+    @keyframes floatBear {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-10px); }
+    }
+    .bear-wrap svg {
+      width: clamp(90px, 22vw, 130px);
+      height: auto;
+    }
+
+    /* ── TYPOGRAPHY ── */
+    .headline {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(1.8rem, 7vw, 2.6rem);
+      color: var(--pink);
+      margin-bottom: 14px;
+      line-height: 1.2;
+    }
+    .divider {
+      margin: 14px auto;
+      height: 2px;
+      width: 55px;
+      border-radius: 2px;
+      background: linear-gradient(90deg, transparent, var(--pink), transparent);
+    }
+    .message {
+      font-size: clamp(0.9rem, 3.5vw, 1.05rem);
+      color: #6d4c41;
+      line-height: 1.85;
+      margin-bottom: 20px;
+    }
+    .message em { color: var(--pink); font-style: normal; font-weight: 700; }
+    .question {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(1.5rem, 6vw, 2rem);
+      color: #ad1457;
+      margin-bottom: 28px;
+    }
+
+    /* ── YES BUTTON ── */
+    .btn-yes {
+      background: linear-gradient(135deg, #e91e63, #f06292);
+      color: white;
+      border: none;
+      padding: clamp(14px, 4vw, 18px) clamp(32px, 10vw, 52px);
+      border-radius: 50px;
+      font-size: clamp(1.05rem, 4vw, 1.25rem);
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 8px 28px rgba(233,30,99,0.45);
+      animation: heartbeat 1.8s ease-in-out infinite;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      letter-spacing: 0.5px;
+      display: inline-block;
+    }
+    @keyframes heartbeat {
+      0%,100% { transform: scale(1);    box-shadow: 0 8px 28px rgba(233,30,99,.4); }
+      14%      { transform: scale(1.06); box-shadow: 0 12px 36px rgba(233,30,99,.6); }
+      28%      { transform: scale(1);    box-shadow: 0 8px 28px rgba(233,30,99,.4); }
+      42%      { transform: scale(1.04); box-shadow: 0 10px 32px rgba(233,30,99,.55); }
+    }
+
+    /* ── NO BUTTON (runs away) ── */
+    .btn-no {
+      background: #bdbdbd;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      cursor: pointer;
+      position: fixed;
+      z-index: 30;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      /* smooth teleport */
+      transition: left 0.15s ease, top 0.15s ease, font-size 0.3s, padding 0.3s, opacity 0.3s;
+    }
+
+    /* ── TOAST ── */
+    #runMsg {
+      position: fixed;
+      bottom: env(safe-area-inset-bottom, 24px);
+      bottom: max(24px, env(safe-area-inset-bottom));
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255,255,255,0.95);
+      color: #e91e63;
+      font-weight: 700;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-size: clamp(0.85rem, 3.5vw, 1rem);
+      box-shadow: 0 4px 14px rgba(233,30,99,.2);
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      z-index: 50;
+      white-space: nowrap;
+      max-width: 90vw;
+      text-align: center;
+    }
+    #runMsg.show { opacity: 1; }
+
+    /* ── SUCCESS SCREEN ── */
+    #yesScreen {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: linear-gradient(135deg, #fce4ec, #e8eaf6, #f8bbd0);
+      background-size: 400% 400%;
+      animation: bgShift 6s ease infinite;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      overflow-y: auto;
+    }
+    #yesScreen.show { display: flex; }
+
+    .yes-card {
+      background: rgba(255,255,255,0.93);
+      border-radius: 28px;
+      padding: clamp(32px, 8vw, 60px) clamp(24px, 8vw, 64px);
+      text-align: center;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 24px 70px rgba(233,30,99,.28);
+      animation: popIn 0.7s cubic-bezier(.34,1.56,.64,1) forwards;
+      position: relative;
+      z-index: 210;
+    }
+    .yes-emoji {
+      font-size: clamp(60px, 18vw, 90px);
+      display: block;
+      margin-bottom: 14px;
+      animation: spinIn 0.6s ease;
+    }
+    @keyframes spinIn {
+      0% { transform: rotate(-40deg) scale(0); }
+      100% { transform: rotate(0) scale(1); }
+    }
+    .yes-title {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(2rem, 8vw, 2.8rem);
+      color: var(--pink);
+      margin-bottom: 14px;
+    }
+    .yes-msg {
+      font-size: clamp(0.9rem, 3.5vw, 1.1rem);
+      color: #6d4c41;
+      line-height: 1.9;
+    }
+
+    /* ── CONFETTI ── */
+    .confetti-piece {
+      position: fixed;
+      top: -20px;
+      border-radius: 3px;
+      animation: confettiFall linear forwards;
+      z-index: 205;
+      pointer-events: none;
+    }
+    @keyframes confettiFall {
+      0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="stars" id="stars"></div>
+<div class="floaty" id="floaty"></div>
+
+<div class="card" id="mainCard">
+
+  <div class="bear-wrap">
+    <svg viewBox="0 0 130 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="30" cy="36" r="18" fill="#f8bbd0"/>
+      <circle cx="30" cy="36" r="12" fill="#fce4ec"/>
+      <circle cx="100" cy="36" r="18" fill="#f8bbd0"/>
+      <circle cx="100" cy="36" r="12" fill="#fce4ec"/>
+      <ellipse cx="65" cy="64" rx="44" ry="42" fill="#f8bbd0"/>
+      <ellipse cx="42" cy="74" rx="10" ry="7" fill="#f48fb1" opacity=".5"/>
+      <ellipse cx="88" cy="74" rx="10" ry="7" fill="#f48fb1" opacity=".5"/>
+      <ellipse cx="50" cy="58" rx="7" ry="8" fill="#4a2c2a"/>
+      <ellipse cx="80" cy="58" rx="7" ry="8" fill="#4a2c2a"/>
+      <circle cx="53" cy="55" r="2.5" fill="white"/>
+      <circle cx="83" cy="55" r="2.5" fill="white"/>
+      <ellipse cx="65" cy="76" rx="16" ry="12" fill="#fce4ec"/>
+      <ellipse cx="65" cy="72" rx="6" ry="4" fill="#c2185b"/>
+      <path d="M57 80 Q65 89 73 80" stroke="#c2185b" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+      <path d="M65 42 C65 42 60 36 56 37 C52 38 51 43 55 46 L65 55 L75 46 C79 43 78 38 74 37 C70 36 65 42 65 42Z" fill="#e91e63" opacity=".85"/>
+      <ellipse cx="65" cy="108" rx="30" ry="18" fill="#f8bbd0"/>
+      <path d="M35 95 Q22 100 20 112" stroke="#f8bbd0" stroke-width="14" stroke-linecap="round"/>
+      <path d="M95 95 Q108 100 110 112" stroke="#f8bbd0" stroke-width="14" stroke-linecap="round"/>
+      <line x1="20" y1="112" x2="20" y2="128" stroke="#388e3c" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="20" cy="108" r="7" fill="#e91e63"/>
+      <circle cx="20" cy="107" r="4" fill="#f06292"/>
+      <line x1="110" y1="112" x2="110" y2="128" stroke="#388e3c" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="110" cy="108" r="7" fill="#e91e63"/>
+      <circle cx="110" cy="107" r="4" fill="#f06292"/>
+    </svg>
+  </div>
+
+  <h1 class="headline">Hey, You! 🌸</h1>
+  <div class="divider"></div>
+
+  <p class="message">
+    I've been thinking about this for a while&nbsp;—&nbsp;probably longer than I should admit 😅&nbsp;—&nbsp;and I finally have the courage to ask.
+    <br /><br />
+    It would be my absolute pleasure if you could spend next weekend with me. I'll move mountains,
+    rearrange the stars, and bring you the whole world on a silver platter,
+    because honestly? I just want to go on a date with
+    <em>the most beautiful, most wonderful, most incredible lady I know.</em>
+    <br /><br />
+    That's you, by the way. It's always been you. 🥰
+  </p>
+
+  <p class="question">Will you go on a date with me? 🌹</p>
+
+  <button class="btn-yes" onclick="sayYes()">Yes, absolutely! 🎉</button>
+</div>
+
+<!-- Cowardly No button — lives outside card, floats over everything -->
+<button
+  class="btn-no"
+  id="noBtn"
+  onmouseenter="runAway()"
+  ontouchstart="runAway(event)"
+  onclick="runAway(event)"
+>No</button>
+
+<div id="runMsg"></div>
+
+<div id="yesScreen">
+  <div class="yes-card">
+    <span class="yes-emoji">💍</span>
+    <h2 class="yes-title">She said YES!! 🎊</h2>
+    <div class="divider"></div>
+    <p class="yes-msg">
+      You just made me the happiest person in the entire universe! 🌟
+      <br /><br />
+      Get ready for the most magical date ever — I promise every moment will be unforgettable,
+      every smile will be worth it, and you will feel like the queen you truly are. 👑
+      <br /><br />
+      <em style="color:#e91e63; font-style:normal; font-weight:800;">See you next weekend, gorgeous! 💕</em>
+    </p>
+  </div>
+</div>
+
+<script>
+  /* ── Stars ── */
+  const starsEl = document.getElementById('stars');
+  for (let i = 0; i < 55; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const sz = Math.random() * 3 + 1;
+    s.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;animation-duration:${Math.random()*3+2}s;animation-delay:${Math.random()*4}s;`;
+    starsEl.appendChild(s);
+  }
+
+  /* ── Floating petals ── */
+  const floatyEl = document.getElementById('floaty');
+  const icons = ['💕','💗','💖','💝','🌸','✨','💫','🌺','🦋','⭐','🌟','🎀'];
+  for (let i = 0; i < 16; i++) {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    p.textContent = icons[Math.floor(Math.random() * icons.length)];
+    p.style.cssText = `left:${Math.random()*100}%;font-size:${Math.random()*1.4+1}rem;animation-duration:${Math.random()*6+6}s;animation-delay:${Math.random()*8}s;`;
+    floatyEl.appendChild(p);
+  }
+
+  /* ── No button ── */
+  const noBtn = document.getElementById('noBtn');
+  const runMsg = document.getElementById('runMsg');
+  let noScale = 1;
+  let chaseCount = 0;
+  let msgTimeout;
+
+  const taunts = [
+    "Nope, not today! 😏",
+    "Catch me if you can! 💨",
+    "Nice try though~ 🥺",
+    "That button has trust issues 😂",
+    "It's running away! 😄",
+    "The button says: JUST SAY YES! 💕",
+    "Come on, you know what to do 😉",
+    "Seriously… just hit Yes 🥹",
+    "The answer is already written in your heart 💖",
+  ];
+
+  function placeNoBtn() {
+    /* start at bottom-right of screen */
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    noBtn.style.left = Math.min(vw - noBtn.offsetWidth - 16, vw * 0.6) + 'px';
+    noBtn.style.top  = Math.min(vh - noBtn.offsetHeight - 24, vh * 0.75) + 'px';
+  }
+  /* wait for layout then place */
+  requestAnimationFrame(placeNoBtn);
+  window.addEventListener('resize', placeNoBtn);
+
+  function runAway(e) {
+    if (e) e.preventDefault();
+
+    const margin = 12;
+    const vw = window.innerWidth  - noBtn.offsetWidth  - margin * 2;
+    const vh = window.innerHeight - noBtn.offsetHeight - margin * 2;
+
+    noBtn.style.left = (margin + Math.random() * vw) + 'px';
+    noBtn.style.top  = (margin + Math.random() * vh) + 'px';
+
+    /* shrink it */
+    noScale = Math.max(0.3, noScale - 0.08);
+    noBtn.style.fontSize = noScale + 'rem';
+    noBtn.style.padding  = `${12 * noScale}px ${24 * noScale}px`;
+    noBtn.style.opacity  = String(Math.max(0.35, noScale));
+
+    /* taunt */
+    runMsg.textContent = taunts[Math.min(chaseCount, taunts.length - 1)];
+    runMsg.classList.add('show');
+    clearTimeout(msgTimeout);
+    msgTimeout = setTimeout(() => runMsg.classList.remove('show'), 1800);
+    chaseCount++;
+  }
+
+  /* ── Yes ── */
+  function sayYes() {
+    document.getElementById('yesScreen').classList.add('show');
+    launchConfetti();
+    launchCelebrationPetals();
+  }
+
+  function launchCelebrationPetals() {
+    const cel = ['💕','💖','🎉','🎊','✨','🌟','💫','🥳','🌸','💝'];
+    for (let i = 0; i < 28; i++) {
+      setTimeout(() => {
+        const p = document.createElement('div');
+        p.className = 'petal';
+        p.textContent = cel[Math.floor(Math.random() * cel.length)];
+        p.style.cssText = `left:${Math.random()*100}%;font-size:${Math.random()*1.8+1.2}rem;animation-duration:${Math.random()*3+3}s;animation-delay:0s;z-index:220;`;
+        floatyEl.appendChild(p);
+      }, i * 80);
+    }
+  }
+
+  function launchConfetti() {
+    const cols = ['#e91e63','#f06292','#ce93d8','#81d4fa','#fff176','#a5d6a7','#ffcc80'];
+    for (let i = 0; i < 110; i++) {
+      setTimeout(() => {
+        const c = document.createElement('div');
+        c.className = 'confetti-piece';
+        const sz = Math.random() * 10 + 6;
+        c.style.cssText = `left:${Math.random()*100}vw;width:${sz}px;height:${sz*(Math.random()>.5?1:2.5)}px;background:${cols[Math.floor(Math.random()*cols.length)]};animation-duration:${Math.random()*2.5+2}s;animation-delay:${Math.random()*1.2}s;border-radius:${Math.random()>.5?'50%':'3px'};`;
+        document.body.appendChild(c);
+        setTimeout(() => c.remove(), 5000);
+      }, i * 30);
+    }
+  }
+</script>
+</body>
+</html>
